@@ -2,6 +2,7 @@ import flowbite from "flowbite-react/tailwind";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class', // Enable class-based dark mode
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,8 +12,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: {
+          DEFAULT: '#ffffff', // Light mode background
+          dark: '#1a202c',    // Dark mode background
+        },
+        foreground: {
+          DEFAULT: '#1a202c', // Light mode text
+          dark: '#ffffff',    // Dark mode text
+        },
       },
     },
   },
