@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default function Page() {
+  console.log(new Date)
   return (
     <div className="min-h-screen">
       <h1 className="text-2xl font-bold">Welcome to the page!</h1>

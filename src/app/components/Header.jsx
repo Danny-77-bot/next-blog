@@ -6,14 +6,16 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
+import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import { dark, light } from '@clerk/themes';
 
 export default function Header() {
-  const path = usePathname(); // Get current path
-  const { theme, setTheme } = useTheme(); // Theme handling state
+  const path = usePathname();
+  const { theme, setTheme } = useTheme();
 
   return (
     <Navbar className="border-b-2">
-      {/* Brand Logo */}
+      {/* Logo */}
       <Link
         href="/"
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
@@ -24,11 +26,11 @@ export default function Header() {
       </Link>
 
       {/* Search Bar */}
-      <form>
+      <form className="hidden lg:block">
         <TextInput
           type="text"
           placeholder="Search..."
-          rightIcon={AiOutlineSearch}
+          icon={AiOutlineSearch}
           className="lg:inline"
         />
       </form>
@@ -36,25 +38,35 @@ export default function Header() {
         <AiOutlineSearch />
       </Button>
 
-      {/* Dynamic Theme Toggle and Sign-In Button */}
-      <div className="flex gap-2 md:order-2">
+      {/* Theme Toggle, Sign In/Out Buttons */}
+      <div className='flex gap-2 md:order-2'>
         <Button
-          className="w-12 h-10 hidden sm:inline"
-          color="gray"
+          className='w-12 h-10 hidden sm:inline'
+          color='gray'
           pill
           onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
         >
           {theme === 'light' ? <FaSun /> : <FaMoon />}
         </Button>
-        <Link href="/sign-in">
-          <Button gradientDuoTone="purpleToBlue" outline>
-            Sign In
-          </Button>
-        </Link>
+        <SignedIn>
+          <UserButton
+            appearance={{
+              baseTheme: theme === 'light' ? light : dark,
+            }}
+            userProfileUrl='/dashboard?tab=profile'
+          />
+        </SignedIn>
+        <SignedOut>
+          <Link href='/sign-in'>
+            <Button gradientDuoTone='purpleToBlue' outline>
+              Sign In
+            </Button>
+          </Link>
+        </SignedOut>
         <Navbar.Toggle />
       </div>
 
-      {/* Navbar Links with Active State */}
+      {/* Navigation Links */}
       <Navbar.Collapse>
         <Link href="/">
           <Navbar.Link active={path === '/'} as="div">
